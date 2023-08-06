@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.js"
+      integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="row mt-5">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <div class="card border-dark">
+          <div class="card-body p-4">
+            <div id="dropdowns" hidden>
+              <select
+                id="sheetname"
+                class="form-select w-50"
+                onchange="dropdownTrigger(this);"
+                aria-label="Default select example"
+              >
+                <option selected>Select the environment</option>
+              </select>
+              <select
+                id="client"
+                class="form-select mt-2 w-50"
+                aria-label="Default select example"
+                onchange="appendData(this);"
+              >
+                <option selected>Select the client</option>
+              </select>
+
+              <div class="row mt-3">
+                <div class="col-2">
+                  <label class="mt-1 p-1" for="ClientID">ClientID</label>
+                </div>
+                <div class="col-9">
+                  <input id="ClientID" class="form-control w-50" value="" />
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-2">
+                  <label class="mt-1 p-1" for="ActiveDsnId">ActiveDsnId</label>
+                </div>
+                <div class="col-1">
+                  <input id="ActiveDsnId" class="form-control" value="" />
+                </div>
+                <div class="col-3">
+                  <input id="Active_DB_name" class="form-control" value="" />
+                </div>
+                <div class="col-5">
+                  <input id="Active_DB_server" class="form-control" value="" />
+                </div>
+                <div class="col-1">
+                  <button
+                    id="activecopy"
+                    class="btn btn-light"
+                    onclick="copyActive()"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-clipboard"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"
+                      />
+                      <path
+                        d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-2">
+                  <label class="mt-1 p-1" for="LoginDsnId">LoginDsnId</label>
+                </div>
+                <div class="col-1">
+                  <input id="LoginDsnId" class="form-control" value="" />
+                </div>
+                <div class="col-3">
+                  <input id="Login_DB_name" class="form-control" value="" />
+                </div>
+                <div class="col-5">
+                  <input id="Login_DB_server" class="form-control" value="" />
+                </div>
+                <div class="col-1">
+                  <button
+                    id="logincopy"
+                    class="btn btn-light"
+                    onclick="copyLogin()"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-clipboard"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"
+                      />
+                      <path
+                        d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-2">
+                  <label class="mt-1 p-1" for="PassiveDsnId"
+                    >PassiveDsnId</label
+                  >
+                </div>
+                <div class="col-2">
+                  <input id="PassiveDsnId" class="form-control w-50" value="" />
+                </div>
+                <div class="col-7"></div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-2">
+                  <label class="mt-1 p-1" for="Status">Status</label>
+                </div>
+                <div class="col-2">
+                  <input id="Status" class="form-control w-50" value="" />
+                </div>
+                <div class="col-7"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-2"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
