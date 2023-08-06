@@ -1,4 +1,4 @@
-var data = [
+var StagingData = [
   {
     ClientID: 25165,
     ClientName: "#octnew#",

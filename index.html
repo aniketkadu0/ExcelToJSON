@@ -22,6 +22,9 @@
       crossorigin="anonymous"
     ></script>
     <script src="script.js"></script>
+    <script src="US.js"></script>
+    <script src="EU.js"></script>
+    <script src="Staging.js"></script>
   </head>
   <body>
     <div class="row mt-5">
@@ -29,7 +32,7 @@
       <div class="col-8">
         <div class="card border-dark">
           <div class="card-body p-4">
-            <div id="dropdowns" hidden>
+            <div id="dropdowns">
               <select
                 id="sheetname"
                 class="form-select w-50"
@@ -37,10 +40,13 @@
                 aria-label="Default select example"
               >
                 <option selected>Select the environment</option>
+                <option value="0">US prod</option>
+                <option value="1">EU prod</option>
+                <option value="2">Staging</option>
               </select>
               <select
                 id="client"
-                class="form-select mt-2 w-50"
+                class="form-select mt-3 w-50"
                 aria-label="Default select example"
                 onchange="appendData(this);"
               >

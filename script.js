@@ -1,52 +1,52 @@
-$(document).ready(function () {
-  $.support.cors = true;
-  ImportFile();
-});
+// $(document).ready(function () {
+//   $.support.cors = true;
+//   ImportFile();
+// });
 
-window.workbook;
+// window.workbook;
 window.jsonData;
-function ImportFile() {
-  var excelUrl = "./tg_db_details.xlsx";
+// function ImportFile() {
+//   var excelUrl = "./tg_db_details.xlsx";
 
-  var oReq = new XMLHttpRequest();
-  oReq.open("get", excelUrl, true);
-  oReq.responseType = "blob";
-  oReq.onload = function () {
-    excelFileToJSON(oReq.response);
-  };
-  oReq.send(null);
-}
+//   var oReq = new XMLHttpRequest();
+//   oReq.open("get", excelUrl, true);
+//   oReq.responseType = "blob";
+//   oReq.onload = function () {
+//     excelFileToJSON(oReq.response);
+//   };
+//   oReq.send(null);
+// }
 
-//Method to read excel file and convert it into JSON
-function excelFileToJSON(file) {
-  $("#dropdowns").prop("hidden", false);
-  try {
-    var reader = new FileReader();
-    reader.readAsBinaryString(file);
-    reader.onload = function (e) {
-      var data = e.target.result;
-      window.workbook = XLSX.read(data, {
-        type: "binary",
-      });
-      displayJsonToHtmlTable(workbook);
-    };
-  } catch (e) {
-    console.error(e);
-  }
-}
+// //Method to read excel file and convert it into JSON
+// function excelFileToJSON(file) {
+//   $("#dropdowns").prop("hidden", false);
+//   try {
+//     var reader = new FileReader();
+//     reader.readAsBinaryString(file);
+//     reader.onload = function (e) {
+//       var data = e.target.result;
+//       window.workbook = XLSX.read(data, {
+//         type: "binary",
+//       });
+//       displayJsonToHtmlTable(workbook);
+//     };
+//   } catch (e) {
+//     console.error(e);
+//   }
+// }
 
-function displayJsonToHtmlTable(workbook) {
-  var SheetNames = workbook.SheetNames;
-  for (let sheetname in SheetNames) {
-    $("#sheetname").append(
-      `<option value=
-          ${SheetNames[sheetname]}
-            > 
-            ${SheetNames[sheetname]}
-            </option>`
-    );
-  }
-}
+// function displayEnvironment(workbook) {
+//   var SheetNames = workbook.SheetNames;
+//   for (let sheetname in SheetNames) {
+//     $("#sheetname").append(
+//       `<option value=
+//           ${SheetNames[sheetname]}
+//             >
+//             ${SheetNames[sheetname]}
+//             </option>`
+//     );
+//   }
+// }
 
 function dropdownTrigger(selectedObject) {
   $("#client").html(`<option selected>Select the client</option>`);
@@ -59,10 +59,12 @@ function dropdownTrigger(selectedObject) {
   $("#Login_DB_name").val("");
   $("#PassiveDsnId").val("");
   $("#Status").val("");
-  window.jsonData = XLSX.utils.sheet_to_json(
-    window.workbook.Sheets[selectedObject.value]
-  );
-  console.log(window.jsonData);
+  window.jsonData =
+    selectedObject.value == 0
+      ? USData
+      : selectedObject.value == 1
+      ? EUData
+      : StagingData;
   append(window.jsonData);
 }
 

@@ -1,4 +1,4 @@
-var data = [
+var USData = [
   {
     ClientID: 13525,
     ClientName: "000Test",
